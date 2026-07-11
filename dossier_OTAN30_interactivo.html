@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTAN 3.0 y el Proyecto de Defensa Europeo — 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f1e38;
+  --navy-mid: #1a3155;
+  --navy-light: #264573;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --cream: #f5f0e8;
+  --cream-dark: #ede7d9;
+  --text: #1a1a2e;
+  --text-muted: #5a6070;
+  --text-light: #8a909e;
+  --white: #ffffff;
+  --border: rgba(15,30,56,0.12);
+  --sidebar-w: 260px;
+  --accent-blue: #2c5282;
+  --accent-blue-light: #ebf0f8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ── LAYOUT ── */
+#shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+#sidebar-logo {
+  padding: 28px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+#sidebar-logo .shield {
+  width: 36px; height: 36px;
+  background: var(--gold);
+  border-radius: 4px 4px 18px 18px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px;
+}
+
+#sidebar-logo .shield svg { width:18px; height:18px; fill: var(--navy); }
+
+#sidebar-logo h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+#sidebar-logo .year-tag {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+#nav { padding: 12px 0 24px; }
+
+.nav-section-label {
+  padding: 16px 20px 4px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  font-family: 'Source Serif 4', serif;
+}
+
+.nav-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 9px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.55);
+  font-family: 'Source Serif 4', serif;
+  font-size: 12px;
+  line-height: 1.4;
+  transition: color .2s, background .2s;
+  border-left: 2px solid transparent;
+}
+
+.nav-item:hover {
+  color: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.05);
+}
+
+.nav-item.active {
+  color: var(--gold-light);
+  background: rgba(201,168,76,0.08);
+  border-left-color: var(--gold);
+}
+
+.nav-num {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--gold);
+  opacity: 0.7;
+  min-width: 16px;
+  margin-top: 2px;
+  font-family: 'Source Serif 4', serif;
+}
+
+.nav-item.active .nav-num { opacity: 1; }
+
+/* ── MAIN ── */
+#main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ── */
+#topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+#topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#chapter-crumb {
+  font-size: 11px;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+#chapter-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.topbar-divider {
+  width: 1px; height: 18px;
+  background: var(--border);
+}
+
+.progress-bar {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.progress-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cream-dark);
+  transition: background .3s;
+}
+
+.progress-dot.done { background: var(--gold); }
+.progress-dot.current { background: var(--navy); }
+
+/* ── CONTENT ── */
+#content {
+  padding: 48px 56px 80px;
+  max-width: 820px;
+}
+
+.chapter-header {
+  margin-bottom: 32px;
+}
+
+.chapter-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--navy);
+  padding: 4px 10px;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+
+.chapter-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.chapter-intro {
+  font-size: 16px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.8;
+  padding: 18px 22px;
+  border-left: 3px solid var(--gold);
+  background: rgba(201,168,76,0.04);
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 8px;
+}
+
+/* ── ACCORDIONS ── */
+.acc-group { margin-top: 24px; }
+
+.acc {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: var(--white);
+  transition: box-shadow .2s;
+}
+
+.acc:hover { box-shadow: 0 2px 12px rgba(15,30,56,0.07); }
+
+.acc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  gap: 12px;
+}
+
+.acc-head:hover { background: rgba(15,30,56,0.02); }
+
+.acc-head-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+}
+
+.acc-index {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold);
+  min-width: 20px;
+  margin-top: 3px;
+  font-family: 'Source Serif 4', serif;
+  letter-spacing: 0.05em;
+}
+
+.acc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.4;
+}
+
+.acc-arrow {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: transform .25s, background .2s;
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.acc.open .acc-arrow {
+  transform: rotate(90deg);
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+
+.acc-body {
+  display: none;
+  padding: 0 20px 20px 52px;
+  animation: fadeIn .2s ease;
+}
+
+.acc.open .acc-body { display: block; }
+
+@keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+
+.acc-body p {
+  font-size: 14.5px;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+.acc-body p:last-of-type { margin-bottom: 12px; }
+
+.sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.src-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.src-ieee { background: #ebf0f8; color: #1a4a8a; }
+.src-elcano { background: #eaf3de; color: #3b6d11; }
+.src-lgc { background: #faece7; color: #8a3010; }
+.src-eca { background: #faeeda; color: #7a4a08; }
+.src-oficial { background: var(--cream-dark); color: var(--text-muted); }
+
+/* ── KEY CONCEPTS BOX ── */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.concept-card {
+  background: var(--navy);
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+
+.concept-card .cc-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.concept-card .cc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.concept-card .cc-text {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ── TIMELINE ── */
+.timeline {
+  position: relative;
+  margin: 24px 0;
+  padding-left: 28px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold), var(--navy-light));
+}
+
+.tl-item {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.tl-dot {
+  position: absolute;
+  left: -24px;
+  top: 4px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--cream);
+  box-shadow: 0 0 0 1px var(--gold);
+}
+
+.tl-year {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+  font-family: 'Source Serif 4', serif;
+}
+
+.tl-text {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ── QUESTIONS BOX ── */
+.questions-box {
+  background: var(--accent-blue-light);
+  border: 1px solid rgba(44,82,130,0.15);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin: 24px 0;
+}
+
+.questions-box h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.q-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.q-item:last-child { margin-bottom: 0; }
+
+.q-num {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  min-width: 18px;
+  margin-top: 3px;
+  font-family: 'Source Serif 4', serif;
+}
+
+/* ── CONCLUSION BOX ── */
+.conclusion-highlight {
+  background: var(--navy);
+  border-radius: 10px;
+  padding: 24px 28px;
+  margin: 24px 0;
+}
+
+.conclusion-highlight p {
+  font-size: 15px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.conclusion-highlight strong {
+  color: var(--gold-light);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* ── NAV FOOTER ── */
+#nav-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--white);
+  cursor: pointer;
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: all .2s;
+  text-decoration: none;
+}
+
+.nav-btn:hover {
+  border-color: var(--navy);
+  color: var(--navy);
+  background: var(--cream);
+}
+
+.nav-btn.primary {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+
+.nav-btn.primary:hover { background: var(--navy-mid); }
+
+/* ── MOBILE HAMBURGER ── */
+#menu-toggle {
+  display: none;
+  position: fixed;
+  top: 12px; left: 12px;
+  z-index: 200;
+  background: var(--navy);
+  border: none;
+  border-radius: 6px;
+  width: 38px; height: 38px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+#menu-toggle span {
+  display: block;
+  width: 18px; height: 1.5px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: .2s;
+}
+
+@media (max-width: 768px) {
+  #menu-toggle { display: flex; }
+  #sidebar { transform: translateX(-100%); transition: transform .3s; }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-left: 0; }
+  #content { padding: 24px 20px 60px; }
+  #topbar { padding: 0 16px 0 56px; }
+  .concept-grid { grid-template-columns: 1fr; }
+  .chapter-title { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<button id="menu-toggle" onclick="toggleMobile()" aria-label="Menú">
+  <span></span><span></span><span></span>
+</button>
+
+<div id="shell">
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div id="sidebar-logo">
+    <div class="shield">
+      <svg viewBox="0 0 20 20"><path d="M10 1L2 4v7c0 4.5 3.5 8 8 9 4.5-1 8-4.5 8-9V4L10 1z"/></svg>
+    </div>
+    <h1>OTAN 3.0 y el Proyecto de Defensa Europeo</h1>
+    <span class="year-tag">Dossier académico · 2026</span>
+  </div>
+  <nav id="nav">
+    <div class="nav-section-label">Contenido</div>
+    <button class="nav-item active" onclick="go(0)"><span class="nav-num">00</span>Introducción</button>
+    <button class="nav-item" onclick="go(1)"><span class="nav-num">01</span>Autonomía estratégica europea</button>
+    <button class="nav-item" onclick="go(2)"><span class="nav-num">02</span>OTAN 3.0 y el pilar europeo</button>
+    <button class="nav-item" onclick="go(3)"><span class="nav-num">03</span>El proyecto de defensa UE</button>
+    <button class="nav-item" onclick="go(4)"><span class="nav-num">04</span>Industria de defensa europea</button>
+    <button class="nav-item" onclick="go(5)"><span class="nav-num">05</span>Complementariedad OTAN–UE</button>
+    <button class="nav-item" onclick="go(6)"><span class="nav-num">06</span>Tendencias 2030–2035</button>
+    <button class="nav-item" onclick="go(7)"><span class="nav-num">07</span>Conclusión</button>
+    <div class="nav-section-label" style="margin-top:8px">Fuentes principales</div>
+    <div style="padding:8px 20px 4px;font-size:11px;color:rgba(255,255,255,0.35);line-height:1.7;font-family:'Source Serif 4',serif;font-weight:300">
+      IEEE · Real Instituto Elcano<br>Le Grand Continent<br>Tribunal de Cuentas Europeo<br>Docs. oficiales OTAN / UE
+    </div>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<div id="main">
+  <header id="topbar">
+    <div id="topbar-left">
+      <span id="chapter-crumb">Capítulo</span>
+      <div class="topbar-divider"></div>
+      <span id="chapter-name">Introducción</span>
+    </div>
+    <div class="progress-bar" id="progress-bar"></div>
+  </header>
+
+  <div id="content"></div>
+</div>
+
+</div><!-- #shell -->
+
+<script>
+const chapters = [
+{
+  tag:"Introducción",
+  title:"Por qué Europa ha vuelto a hablar de defensa",
+  intro:"La seguridad europea atraviesa su momento de mayor tensión estratégica desde el final de la Guerra Fría. Dos debates interconectados han vuelto al centro de la agenda: la idea de una 'OTAN 3.0' y el impulso de un proyecto de defensa europeo más sólido.",
+  extra:`<div class="concept-grid">
+    <div class="concept-card"><div class="cc-label">Concepto central</div><div class="cc-title">OTAN 3.0</div><div class="cc-text">Europa asume la defensa convencional. EE.UU. mantiene el paraguas nuclear y capacidades estratégicas avanzadas.</div></div>
+    <div class="concept-card"><div class="cc-label">Concepto central</div><div class="cc-title">Autonomía estratégica</div><div class="cc-text">Capacidad de decidir y actuar sin quedar subordinada a agendas externas. Complementaria a la OTAN, no alternativa.</div></div>
+    <div class="concept-card"><div class="cc-label">Término clave</div><div class="cc-title">Burden shifting</div><div class="cc-text">Transferir la carga, no solo repartirla. Europa debe liderar su defensa, no simplemente contribuir más.</div></div>
+    <div class="concept-card"><div class="cc-label">Hito reciente</div><div class="cc-title">Cumbre de La Haya (2025)</div><div class="cc-text">Compromisos de gasto del 3,5–5% del PIB. Niveles sin precedentes desde la Guerra Fría.</div></div>
+  </div>`,
+  sections:[
+    {t:"La premisa que se ha roto",s:["elcano","ieee"],
+     b:"Durante tres décadas, la arquitectura de seguridad occidental descansó sobre una premisa implícita: Estados Unidos garantizaría en última instancia la defensa del continente mientras los europeos priorizaban el bienestar social, la integración económica y operaciones exteriores de baja intensidad. Esa premisa se ha deteriorado por dos choques simultáneos: la invasión rusa de Ucrania (2022) demostró que la amenaza convencional en Europa no había desaparecido; y el giro estratégico de EE.UU. hacia el Indo-Pacífico, acelerado bajo la segunda administración Trump, ha puesto en cuestión el rol de Washington como garante último de la seguridad europea."},
+    {t:"El discurso de Colby (12 febrero 2026)",s:["lgc"],
+     b:"Elbridge Colby —subsecretario de Guerra de la administración Trump— pronunció ante los ministros de Defensa aliados el discurso más completo hasta la fecha de la visión estadounidense para una 'OTAN 3.0'. Bruno Tertrais (Le Grand Continent) lo analizó línea por línea: el eje central es el paso del burden sharing (reparto de carga) al burden shifting (traslado de la carga). Ya no se trata de que Europa contribuya más dentro de una estructura liderada por EE.UU., sino de que Europa asuma el liderazgo de su propia defensa convencional. EE.UU. mantiene la disuasión nuclear ampliada y el compromiso con el artículo 5."},
+    {t:"El estado del debate en 2026",s:["ieee","elcano"],
+     b:"A principios de 2026, el diagnóstico estratégico es claro: Rusia sigue siendo la principal amenaza militar inmediata, EE.UU. quiere un burden shifting real, y la UE necesita reforzar su papel en defensa. Lo que sigue sin resolverse es la traducción de ese diagnóstico en poder efectivo. El debate ya no gira en torno a si hace falta una defensa europea más fuerte, sino en torno a si los europeos serán capaces de superar sus bloqueos políticos, industriales y estratégicos."},
+  ]
+},
+{
+  tag:"Capítulo 1",
+  title:"Autonomía estratégica europea",
+  intro:"La autonomía estratégica es un objetivo antiguo de la defensa europea, pero su significado ha ido cambiando. El Real Instituto Elcano ha producido el análisis más sistemático de sus dimensiones y evolución.",
+  sections:[
+    {t:"Las tres dimensiones del concepto (Arteaga, Elcano 2017)",s:["elcano"],
+     b:"Félix Arteaga sistematiza el concepto en tres dimensiones que pueden combinarse en proporciones distintas, generando interpretaciones distintas: (1) Dimensión política: capacidad de decisión estratégica sin subordinación a agendas externas. (2) Dimensión operativa: capacidad de planear, desplegar y sostener operaciones de cierta escala. (3) Dimensión industrial-tecnológica: base productiva capaz de fabricar, mantener y modernizar equipos sin dependencias críticas del exterior."},
+    {t:"Evolución histórica: de lo operativo a lo industrial",s:["elcano"],
+     b:"Tras Saint-Malo (1998) y el Consejo de Colonia (1999), dominó la dimensión operativa: una fuerza de 50.000–60.000 soldados desplegables en 60 días. La Estrategia Europea de Seguridad de 2003 no mencionó la autonomía estratégica. A partir de 2011, en una crisis industrial sin precedentes, la Comisión impulsó un enfoque industrial. Arteaga advierte: primar los intereses industriales sobre los estratégicos implica desarrollar equipos antes de saber cómo y para qué se emplearían, lo que desenfoca la Política Común de Seguridad y Defensa."},
+    {t:"Autonomía estratégica 'abierta': complementariedad, no ruptura",s:["elcano","oficial"],
+     b:"La posición dominante en la literatura española y europea no equivale a autarquía ni a antiatlantismo. Se trata de capacidad de decidir sin quedar subordinada. El enfoque de complementariedad (Arteaga, 2017) exige un esfuerzo adicional: cada euro en capacidades comunes debe sumar a la autonomía total, no reemplazar el gasto nacional. Los países que no puedan realizar ese esfuerzo adicional solo contribuirán a la autonomía europea en detrimento de la propia."},
+    {t:"Diferencias nacionales: Francia vs. España",s:["elcano"],
+     b:"Francia defiende la autonomía en sus tres dimensiones (como potencia nuclear necesita amplia libertad de acción; dispone de sector industrial bajo control público). España ha defendido en foros europeos la primacía de los intereses de seguridad sobre los industriales: una industria integrada debe ser resultado de una defensa real, no su punto de partida. Esta diferencia afecta directamente al diseño de instrumentos como PESCO y el Fondo Europeo de Defensa."},
+    {t:"El cambio de Ucrania (Simón, Elcano 2022)",s:["elcano"],
+     b:"Luis Simón argumenta que la guerra ha puesto de manifiesto la necesidad de avanzar de un paradigma centrado en operaciones de gestión de crisis hacia uno centrado en la defensa territorial y la disuasión. Reconociendo la primacía de la OTAN, señala el potencial de los instrumentos de la UE en desarrollo de capacidades, tecnología y compras de armamento para reforzar la contribución europea de forma indirecta pero estratégicamente significativa."},
+  ]
+},
+{
+  tag:"Capítulo 2",
+  title:"El pilar europeo de la OTAN y OTAN 3.0",
+  intro:"La fórmula 'OTAN 3.0' describe la posible evolución de la Alianza hacia un reparto funcional entre dos pilares. No es un concepto doctrinal oficial cerrado, sino una fórmula interpretativa con implicaciones estratégicas muy concretas.",
+  extra:`<div class="timeline">
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">OTAN 1.0 — Guerra Fría</div><div class="tl-text">Realismo intransigente. Burden sharing efectivo. Disuasión exitosa frente a la URSS.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">OTAN 2.0 — post-URSS (1991–2022)</div><div class="tl-text">Operaciones "fuera de zona". Abandono de la defensa territorial. Marco del "orden internacional basado en normas".</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">Concepto Estratégico OTAN 2022</div><div class="tl-text">Punto de inflexión formal. Rusia reconocida como "amenaza más significativa". Vuelta al foco en defensa territorial.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">Cumbre de La Haya 2025</div><div class="tl-text">Compromisos de gasto del 3,5–5% del PIB. Los aliados reconocen que el modelo OTAN 2.0 ya no es viable.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">Doctrina Colby — febrero 2026</div><div class="tl-text">Burden shifting. Europa debe asumir la responsabilidad principal de la defensa convencional del continente.</div></div>
+  </div>`,
+  sections:[
+    {t:"La tesis del IEEE: dos pilares funcionales",s:["ieee"],
+     b:"El IEEE describe una OTAN organizada de facto en torno a dos pilares. El pilar europeo asumiría fuerzas terrestres, defensa territorial, preparación convencional y capacidad de absorción inicial. El pilar estadounidense mantendría disuasión nuclear, capacidades de largo alcance, inteligencia estratégica y respaldo tecnológico avanzado. El objetivo no es crear una 'OTAN europea' separada, sino reforzar la masa crítica de las contribuciones europeas dentro de la Alianza."},
+    {t:"La doctrina Colby: del burden sharing al burden shifting",s:["lgc"],
+     b:"Colby traza tres fases históricas: OTAN 1.0 (Guerra Fría, realismo, disuasión exitosa); OTAN 2.0 (post-URSS, orden liberal, operaciones fuera de zona); OTAN 3.0 (cercana a la 1.0, con Europa asumiendo el liderazgo de su defensa convencional). Tertrais subraya que el verdadero cambio no es de grado sino de naturaleza: ya no se trata de repartir la carga existente de manera más equitativa, sino de transferirla. Burden shifting, no solo burden sharing."},
+    {t:"Garantías y ambigüedades de EE.UU.",s:["lgc"],
+     b:"Colby confirmó explícitamente: EE.UU. mantendrá la disuasión nuclear ampliada y el compromiso con el artículo 5. Contribuirá con capacidades convencionales de forma 'más limitada y específica'. Tertrais señala ambigüedades relevantes: Colby no menciona a Rusia como amenaza específica; la pregunta sobre si EE.UU. mantendrá el puesto de SACEUR —que tiene la 'llave' del arsenal nuclear táctico en Europa— permanece sin respuesta explícita."},
+    {t:"Qué implica en la práctica",s:["ieee","elcano"],
+     b:"Implica resolver déficits acumulados durante décadas: escasez de stocks de munición, brechas en defensa aérea, poca profundidad logística, sistemas de armas incompatibles entre aliados, y ausencia de estructuras de mando preparadas para un conflicto convencional prolongado. El debate sobre OTAN 3.0 se cruza inevitablemente con el de la defensa europea: sin capacidades reales, el pilar europeo seguirá siendo un enunciado retórico más que una realidad estratégica."},
+  ]
+},
+{
+  tag:"Capítulo 3",
+  title:"El proyecto de defensa europeo en la UE",
+  intro:"La UE ha construido un conjunto de instrumentos para aumentar su autonomía estratégica. La Brújula Estratégica, PESCO, el Fondo Europeo de Defensa y el EDIP forman el núcleo de ese proyecto —con resultados mixtos y debates sin resolver.",
+  sections:[
+    {t:"La Brújula Estratégica (2022): utilidad y límites",s:["ieee","elcano"],
+     b:"Aprobada en marzo de 2022, la Brújula fija una hoja de ruta hasta 2030: capacidad de despliegue rápido de 5.000 efectivos, movilidad militar, resiliencia frente a amenazas híbridas, ciberdefensa, partenariados. Varios análisis del IEEE señalan que 'proporciona más seguridad que defensa': mejora la coordinación política y la respuesta híbrida, pero no resuelve los déficits materiales —artillería, defensa antiaérea, reservas de munición— por sí sola. Su utilidad depende de si va acompañada de decisiones políticas y presupuestarias sostenidas."},
+    {t:"PESCO: resultados mixtos y el debate 'OTAN o nada'",s:["elcano"],
+     b:"Activada en 2017, la Cooperación Estructurada Permanente permite el desarrollo conjunto de capacidades con compromisos vinculantes y seguimiento periódico. El análisis de Elcano identifica resultados mixtos: ha generado proyectos útiles y consolidado cultura de cooperación, pero no ha producido el salto cualitativo esperado. Los Estados siguen protegiendo sus intereses nacionales e industriales. El debate 'OTAN o nada' —¿son los proyectos PESCO coherentes con la planificación aliada?— refleja una tensión real, aunque la mayoría de análisis serios la consideran una falsa dicotomía."},
+    {t:"CARD: coordinación del planeamiento nacional",s:["oficial"],
+     b:"La Revisión Anual Coordinada de Defensa debe orientar la cooperación hacia las capacidades más necesarias y coordinar los planeamientos nacionales. En teoría es el motor que conecta ambiciones estratégicas con decisiones industriales y presupuestarias. En la práctica, su impacto ha sido limitado por la resistencia de los Estados a compartir información sobre sus planeamientos nacionales."},
+    {t:"Fondo Europeo de Defensa (FED)",s:["oficial","ieee"],
+     b:"El FED representa la irrupción del presupuesto comunitario en la financiación de investigación y desarrollo de defensa —algo que habría sido impensable antes de 2017. Su relevancia es tanto simbólica como práctica: rompe el tabú de los fondos comunes para defensa y crea incentivos para la cooperación industrial transnacional. Su volumen (~8.000 M€ para 2021-2027) es modesto comparado con los presupuestos nacionales de los grandes Estados miembros."},
+    {t:"EDIP: la apuesta industrial para 2026 en adelante",s:["ieee","oficial"],
+     b:"El Programa para la Industria de Defensa Europea (EDIP), en desarrollo en 2026, busca apoyar la expansión de la capacidad productiva para responder a las necesidades del rearme acelerado. Sus debates reproducen en pequeño las tensiones del proyecto europeo: cómo equilibrar integración y soberanía nacional, qué es 'industria europea' a efectos de elegibilidad, y cómo evitar que los grandes Estados capturen los beneficios en detrimento de los medianos y pequeños."},
+  ]
+},
+{
+  tag:"Capítulo 4",
+  title:"Industria de defensa y base tecnológica europea",
+  intro:"La guerra de Ucrania actuó como diagnóstico brutal sobre la industria de defensa europea. La pregunta estratégica ya no es doctrinal: ¿puede Europa producir suficiente, bastante rápido y de forma coordinada para sostener un entorno de alta tensión durante años?",
+  sections:[
+    {t:"Tres problemas estructurales (análisis IEEE)",s:["ieee"],
+     b:"(1) Fragmentación: múltiples empresas nacionales con sistemas de armas redundantes e interoperabilidad escasa entre aliados. (2) Falta de escala: las economías de escala de EE.UU., Rusia o China son inalcanzables cuando cada Estado diseña y produce su propio equipamiento. (3) Dependencias críticas: en semiconductores, componentes electrónicos, propulsión y materiales estratégicos, Europa depende en grado preocupante de proveedores externos —incluidos proveedores chinos y estadounidenses."},
+    {t:"La respuesta de urgencia: compras conjuntas",s:["ieee","oficial"],
+     b:"La UE implementó mecanismos de compra conjunta de munición ante la urgencia de Ucrania —un instrumento casi sin precedente en la historia de la integración europea. El resultado fue modesto en términos cuantitativos, pero señaló un cambio de paradigma: por primera vez, la UE asumía un papel en la adquisición de armamento para reposición de stocks nacionales."},
+    {t:"El debate sobre financiación a largo plazo",s:["ieee","oficial"],
+     b:"Dos líneas se oponen: eurobonos para defensa (deuda común europea para financiar capacidades e industria; defendidos por Francia y países del este; resistidos por el norte fiscalmente conservador) vs. maximizar FED y EDIP sin deuda común. El debate sigue sin cerrarse en 2026 y su resolución tendrá impacto directo sobre la capacidad industrial europea en la próxima década."},
+    {t:"El caso FCAS: paradigma de los límites de la integración (Elcano, 2026)",s:["elcano"],
+     b:"El Future Combat Air System —el mayor proyecto de cooperación en defensa de la historia europea— ha atravesado múltiples crisis de negociación entre Francia, Alemania y España por el reparto de workshares y la protección de competencias tecnológicas nacionales. Elcano (abril 2026) lo señala como paradigmático: mientras cada Estado defienda sus programas como compartimentos estancos, la eficiencia industrial europea seguirá limitada. La autonomía estratégica no se decidirá solo en documentos doctrinales, sino en fábricas y decisiones de contratación."},
+  ]
+},
+{
+  tag:"Capítulo 5",
+  title:"Complementariedad y fricciones OTAN–UE",
+  intro:"La OTAN y la UE no son alternativas mutuamente excluyentes —pero la relación tiene fricciones reales que, mal gestionadas, pueden producir duplicaciones estériles en lugar de capacidades adicionales.",
+  sections:[
+    {t:"Dónde se refuerzan mutuamente",s:["ieee","elcano"],
+     b:"Si la UE fortalece su base industrial, financia capacidades coherentes con el planeamiento OTAN y mejora la coordinación entre Estados, puede reforzar a la Alianza. La movilidad militar es el ejemplo más concreto: la UE financia infraestructuras de doble uso (ferroviarias, portuarias, viarias) que benefician directamente la proyección de fuerzas OTAN. El argumento central de la literatura académica: sin una UE más fuerte, la propia OTAN será menos sostenible políticamente."},
+    {t:"Movilidad militar: el informe del Tribunal de Cuentas Europeo (SR-2025-04)",s:["eca"],
+     b:"El TCA auditó el Plan de Acción sobre Movilidad Militar 2.0 (2022-2026). Conclusiones: gobernanza compleja y fragmentada, sin punto de contacto único; solo 4 de las 29 acciones clave podían considerarse finalizadas; los avances han sido 'variables'; la evaluación militar representaba una pequeña parte de la puntuación de selección de proyectos de infraestructura. El TCA recomienda mejorar los mecanismos de gobernanza y diseñar con mayor precisión las acciones futuras."},
+    {t:"Riesgo 1: duplicación institucional",s:["ieee"],
+     b:"La UE tiene su propio Estado Mayor (EMUE), su propia Agencia Europea de Defensa, y procesos de planeamiento de capacidades (CARD, HLG). Si estos instrumentos se desarrollan sin coordinación suficiente con el NDPP (NATO Defence Planning Process), se multiplican los costes de transacción sin añadir capacidades reales. El riesgo de la autonomía estratégica como 'eslogan vacío'."},
+    {t:"Riesgo 2: desconexión de ciclos de planeamiento",s:["ieee"],
+     b:"Si un Estado miembro diseña un programa de capacidades financiado por el FED que no responde a las necesidades del NDPP, habrá dinero gastado sin impacto estratégico real. La conexión entre el planeamiento aliado y los instrumentos financieros y regulatorios europeos es el núcleo del problema de gobernanza del sistema."},
+    {t:"Divergencias entre Estados miembros",s:["ieee","elcano"],
+     b:"Flanco este (Polonia, bálticos): amenaza rusa percibida como existencial; preferencia por la OTAN sobre instrumentos europeos. Sur (España, Italia): combinan amenaza rusa con preocupaciones del flanco sur (Sahel, migración). Francia: impulsora del proyecto europeo pero con cultura estratégica de independencia que genera desconfianza entre aliados. Alemania: mayor presupuesto en cifras absolutas tras la Zeitenwende de 2022; se define como socio más que como líder."},
+  ]
+},
+{
+  tag:"Capítulo 6",
+  title:"Tendencias y preguntas abiertas hacia 2030–2035",
+  intro:"La bibliografía reciente apunta a cuatro tendencias estructurales y plantea tres preguntas analíticas cuya resolución definirá la seguridad europea en la próxima década.",
+  extra:`<div class="questions-box">
+    <h3><span style="font-size:16px">●</span> Tres preguntas analíticas clave</h3>
+    <div class="q-item"><span class="q-num">P1</span><span>¿Hasta dónde puede llegar el pilar europeo? ¿Puede Europa asumir la defensa convencional frente a Rusia sin apoyo operacional estructural de EE.UU.?</span></div>
+    <div class="q-item"><span class="q-num">P2</span><span>¿Qué ocurre si EE.UU. se retrae más rápido de lo previsto, generando una ventana de vulnerabilidad antes de que Europa esté preparada?</span></div>
+    <div class="q-item"><span class="q-num">P3</span><span>¿Qué escenarios existen para la base industrial europea de defensa: consolidación progresiva, competencia renacionalizada o ruptura transformadora?</span></div>
+  </div>`,
+  sections:[
+    {t:"Tendencia 1: mayor presión para asumir la defensa convencional",s:["ieee","lgc"],
+     b:"El reequilibrio de cargas dentro de la OTAN es estructural y no depende solo de Trump: responde al desplazamiento del centro de gravedad estratégico estadounidense hacia Asia. Los compromisos de La Haya (2025) marcan un umbral sin precedentes. El indicador a seguir: si el NDPP comienza a asignar responsabilidades de liderazgo a fuerzas europeas en escenarios convencionales."},
+    {t:"Tendencia 2: mayor peso de la dimensión industrial",s:["ieee"],
+     b:"La guerra de Ucrania ha desplazado el debate desde las doctrinas hacia las fábricas. La capacidad de producir munición, mantener cadenas logísticas y escalar la producción de sistemas complejos se ha convertido en un indicador de poder estratégico tan importante como los documentos de planeamiento. El EDIP y sus instrumentos sucesores marcarán el ritmo de esta transformación."},
+    {t:"Tendencia 3: mayor densidad institucional de la UE como actor de seguridad",s:["ieee","oficial"],
+     b:"La UE seguirá ampliando su papel en seguridad y defensa de forma gradual. La Brújula Estratégica, PESCO, FED y EDIP son peldaños de un proceso con inercia propia. La pregunta no es si la UE seguirá desarrollando instrumentos, sino si lo hará con suficiente coherencia y velocidad para que sean útiles estratégicamente."},
+    {t:"Tendencia 4: persistencia de divergencias internas",s:["ieee","elcano"],
+     b:"Las diferencias entre Estados sobre cuánta autonomía es deseable y frente a qué actor (Rusia, EE.UU., China) no desaparecerán. El debate entre atlantistas y europeístas es constitutivo del proyecto europeo de defensa y lo acompañará durante toda la próxima década. Los indicadores de alerta temprana incluyen: evolución de contratos nacionales vs. cooperativos, progreso real del FCAS y el MGCS, diseño del próximo MFP en materia de defensa."},
+  ]
+},
+{
+  tag:"Conclusión",
+  title:"El estado del debate y los dilemas estratégicos",
+  intro:"La era de la comodidad estratégica europea ha terminado. El debate ya no gira en torno a si hace falta una defensa europea más fuerte, sino en torno a si los europeos serán capaces de superar sus bloqueos antes de que el entorno se deteriore aún más.",
+  extra:`<div class="conclusion-highlight">
+    <p>La <strong>OTAN sigue siendo indispensable</strong> y la <strong>UE sigue siendo insuficiente</strong> —pero sin una UE más fuerte y más útil en materia de defensa, el propio equilibrio atlántico será cada vez más frágil. Esa doble verdad es la tensión constitutiva del debate en 2026.</p>
+  </div>`,
+  sections:[
+    {t:"Las cuatro ideas centrales del estado del debate",s:["ieee","elcano","lgc"],
+     b:"(1) EE.UU. sigue siendo indispensable —especialmente en disuasión nuclear, inteligencia estratégica y capacidades de largo alcance— pero cada vez más condicionado a un burden shifting real. (2) La UE ha avanzado en marcos conceptuales e institucionales, pero no ha demostrado capacidad de producir a la velocidad necesaria. (3) La defensa europea depende de capacidades concretas —munición, logística, industria—, no solo de documentos. (4) El principal obstáculo no es conceptual, sino político e industrial."},
+    {t:"Dilema 1: el ritmo",s:["ieee"],
+     b:"El rearme debe ser suficientemente rápido para no generar ventanas de vulnerabilidad, pero suficientemente ordenado para no crear duplicaciones estériles ni fricciones institucionales. La brecha entre el ritmo del retiro estadounidense y el del refuerzo europeo es el mayor riesgo de estabilidad a corto plazo."},
+    {t:"Dilema 2: la integración industrial",s:["ieee","elcano"],
+     b:"Avanzar hacia una base industrial más integrada requiere ceder soberanía industrial, lo que genera resistencias domésticas en todos los grandes Estados miembros. El caso FCAS ilustra que incluso entre países aliados con voluntad política declarada, los intereses industriales nacionales pueden paralizar la cooperación durante años."},
+    {t:"Dilema 3: la gobernanza",s:["ieee"],
+     b:"Cómo articular el planeamiento de la OTAN con los instrumentos financieros y regulatorios de la UE de manera que produzcan capacidades reales y no solo documentos bien redactados. Si la UE multiplica estructuras sin resolver los déficits materiales, aumentará la confusión y no la capacidad real. El núcleo del problema es de gobernanza: quién prioriza, cómo se planifica, cómo se conectan los ciclos de planeamiento aliados con la financiación europea."},
+  ]
+}
+];
+
+const srcLabels = {ieee:"IEEE",elcano:"Elcano",lgc:"Le Grand Continent",eca:"TCA / UE",oficial:"Doc. oficial"};
+const srcClass = {ieee:"src-ieee",elcano:"src-elcano",lgc:"src-lgc",eca:"src-eca",oficial:"src-oficial"};
+
+let current = 0;
+
+function buildProgress(){
+  const bar = document.getElementById("progress-bar");
+  bar.innerHTML = chapters.map((_,i)=>`<div class="progress-dot" id="pd${i}"></div>`).join("");
+}
+
+function updateProgress(){
+  chapters.forEach((_,i)=>{
+    const d = document.getElementById("pd"+i);
+    d.className = "progress-dot" + (i<current?" done":i===current?" current":"");
+  });
+}
+
+function srcTag(k){ return `<span class="src-tag ${srcClass[k]||'src-oficial'}">${srcLabels[k]||k}</span>`; }
+
+function render(){
+  const ch = chapters[current];
+  document.getElementById("chapter-crumb").textContent = ch.tag;
+  document.getElementById("chapter-name").textContent = ch.title;
+  updateProgress();
+
+  let html = `<div class="chapter-header">
+    <div class="chapter-tag">${ch.tag}</div>
+    <h2 class="chapter-title">${ch.title}</h2>
+    <div class="chapter-intro">${ch.intro}</div>
+  </div>`;
+
+  if(ch.extra) html += ch.extra;
+
+  html += `<div class="acc-group">`;
+  ch.sections.forEach((s,i)=>{
+    const srcs = (s.s||[]).map(srcTag).join("");
+    html += `<div class="acc${i===0?' open':''}">
+      <button class="acc-head" onclick="toggleAcc(this.parentElement)">
+        <div class="acc-head-left">
+          <span class="acc-index">${String(i+1).padStart(2,'0')}</span>
+          <span class="acc-title">${s.t}</span>
+        </div>
+        <span class="acc-arrow">▶</span>
+      </button>
+      <div class="acc-body">
+        <p>${s.b}</p>
+        <div class="sources">${srcs}</div>
+      </div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  const hasPrev = current > 0;
+  const hasNext = current < chapters.length - 1;
+  html += `<div id="nav-footer">
+    ${hasPrev ? `<button class="nav-btn" onclick="go(${current-1})">← ${chapters[current-1].tag}</button>` : '<span></span>'}
+    ${hasNext ? `<button class="nav-btn primary" onclick="go(${current+1})">${chapters[current+1].tag} →</button>` : '<span style="font-size:13px;color:var(--text-muted);font-style:italic">Fin del dossier</span>'}
+  </div>`;
+
+  document.getElementById("content").innerHTML = html;
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  document.querySelectorAll(".nav-item").forEach((btn,i)=>{
+    btn.classList.toggle("active", i===current);
+  });
+}
+
+function toggleAcc(el){
+  el.classList.toggle("open");
+}
+
+function go(i){
+  current = i;
+  render();
+  if(window.innerWidth<=768){
+    document.getElementById("sidebar").classList.remove("open");
+  }
+}
+
+function toggleMobile(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+buildProgress();
+render();
+</script>
+</body>
+</html>
